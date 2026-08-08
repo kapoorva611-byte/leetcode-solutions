@@ -1,7 +1,4 @@
 # Save this file at: .github/workflows/sync.yml in your repo
-# Zero manual effort version — pulls ALL your past submissions on first run,
-# then keeps syncing new ones daily. No folders or files to create by hand.
-
 name: Sync LeetCode Submissions
 
 on:
@@ -14,12 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Sync LeetCode submissions to repo
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
-      - name: LeetCode Sync
-        uses: JackieTien97/LeetCode-Sync@v1.1.0
+      - name: Sync LeetCode Submissions
+        uses: joshcai/leetcode-sync@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
           leetcode-session: ${{ secrets.LEETCODE_SESSION }}
-          leetcode-base-url: leetcode.com
-          filter-out-non-accepted-submissions: true
