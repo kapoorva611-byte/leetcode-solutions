@@ -1,30 +1,41 @@
-#include <iostream>
-#include <stack>
-using namespace std;
-
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
-    bool isPalindrome(ListNode* head) {
-        stack<int> s;
-        ListNode* current = head;
-        
-        // Push all elements of the list onto the stack
-        while (current != nullptr) {
-            s.push(current->val);
-            current = current->next;
+    ListNode* reverse(ListNode* head){
+        ListNode* prev=NULL;
+        ListNode* curr=head;
+        while(curr!=NULL){
+            ListNode *next=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=next;
         }
-        
-        // Traverse the list again and compare with stack
-        current = head;
-        while (current != nullptr) {
-            if (current->val != s.top()) {
+        return prev;
+    }
+    bool isPalindrome(ListNode* head) {
+        ListNode* slow=head;
+        ListNode* fast=head;
+        while(fast!=NULL && fast->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        ListNode* rev=reverse(slow);
+        while(rev!=nullptr){
+            if(head->val !=rev->val){
                 return false;
             }
-            s.pop();
-            current = current->next;
+            head=head->next;
+            rev=rev->next;
         }
-        
         return true;
     }
 };
-
